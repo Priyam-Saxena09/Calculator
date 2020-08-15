@@ -1,144 +1,315 @@
 from tkinter import *
 from functools import partial
-import math
 cal = Tk()
 cal.geometry("600x600")
 cal.title("Calculator")
 def calcu(op):
-    global po,ope,co,i,j,k
-    if(po==-1 and isinstance(op,int)):
-        ent.insert(i,op)
-        i = i+1
-    elif(op=="."):
-        if(ent.get().find(".") != -1 or ent.get().find(ope) == len(ent.get())-1):
-            return
-        ent.insert(i, op)
-        i = i + 1
-    elif (op == "AC"):
-        ent.delete(0, END)
-        po = -1
-        ope = ""
-        co = -1
-        i = 0
-        j = -1
-        k = 1
-    elif(op=="C"):
-         if(ent.get() == ""):
-             return
-         if(po!=-1 and op!=""):
-            if(ent.get().find(ope)!= -1):
-                ent.delete(i - 1, i)
-                i = i - 1
-                if(ent.get().find(ope) == -1):
-                    ope = ""
-                    po=-1
-                else:
-                    j=j//10
-         elif(po==-1 and ope==""):
-            ent.delete(i - 1, i)
-            i = i - 1
-    elif (isinstance(op, str) and ent.get() == ""):
-        return
-    elif(isinstance(op,str) and po==-1):
-        if(ent.get().find(".")!=-1):
-            po=float(ent.get())
-        else:
-            po = int(ent.get())
-        ope = op
-        ent.insert(i, ope)
-        i=i+1
-    elif(isinstance(op,int) and po!=-1 and ope!=""):
-        ent.insert(i, op)
-        i = i + 1
-        if j==-1:
-            j=op
-        else:
-            j=j*10+op
-    elif(isinstance(op,str) and ent.get().find(ope) == len(ent.get())-1):
-        return
-    elif(isinstance(op,str) and po!=-1 and ope!=""):
-        co=j
-        if(op=="="):
-            ent.delete(0, END)
-            if(ope=="+"):
-                ent.insert(0,po+co)
-                i=len(str(po+co))+1
-                po = -1
-                co = -1
-            elif(ope == "-"):
-                ent.insert(0, po-co)
-                i = len(str(po-co))+1
-                po = -1
-                co = -1
-            elif(ope == "x"):
-                ent.insert(0, po*co)
-                i = len(str(po*co)) + 1
-                po = -1
-                co = -1
-            elif(ope == "/"):
-                ent.insert(0, po//co)
-                i = len(str(po//co)) + 1
-                po = -1
-                co = -1
-            elif(ope == "%"):
-                ent.insert(0, po%co)
-                i = len(str(po%co)) + 1
-                po = -1
-                co = -1
-            elif(ope == "^"):
-                ent.insert(0, po**co)
-                i = len(str(po**co)) + 1
-                po = -1
-                co = -1
-            j = -1
-            ope=""
-        else:
-            ent.delete(0, END)
-            if (ope == "+"):
-                ent.insert(0, po + co)
-                i = len(str(po + co)) + 2
-                po = po + co
-                co = -1
-            elif (ope == "-"):
-                ent.insert(0, po - co)
-                i = len(str(po - co)) + 2
-                po = po - co
-                co = -1
-            elif (ope == "x"):
-                ent.insert(0, po * co)
-                i = len(str(po * co)) + 2
-                po = po * co
-                co = -1
-            elif (ope == "/"):
-                ent.insert(0, po // co)
-                i = len(str(po // co)) + 2
-                po = po // co
-                co = -1
-            elif (ope == "%"):
-                ent.insert(0, po % co)
-                i = len(str(po % co)) + 2
-                po = po % co
-                co = -1
-            elif (ope == "^"):
-                ent.insert(0, po ** co)
-                i = len(str(po ** co)) + 2
-                po = po % co
-                co = -1
-            ope = op
-            ent.insert(i - 1, ope)
-            j = -1
-    elif (isinstance(op, str) and op != "=" and ope != ""):
-        return
+   global i,ope
+   if(isinstance(op,int)):
+       ent.insert(i,op)
+       i=i+1
+   elif(op=="."):
+
+       if(ent.get().find("+") == -1 and ent.get().find("-") == -1 and
+               ent.get().find("*") == -1 and ent.get().find("/") == -1 and
+               ent.get().find("%") == -1 and ent.get().find("^") == -1 and ent.get().find(".") == -1):
+           ent.insert(i, op)
+           i = i + 1
+       elif(ent.get().find("+") == -1 and ent.get().find("-") == -1 and
+               ent.get().find("*") == -1 and ent.get().find("/") == -1 and
+               ent.get().find("%") == -1 and ent.get().find("^") == -1 and ent.get().find(".") != -1):
+           return
+       elif (ent.get().find("+") != -1 or ent.get().find("-") != -1 or
+             ent.get().find("*") != -1 or ent.get().find("/") != -1 or
+             ent.get().find("%") != -1 or ent.get().find("^") != -1):
+           if (ent.get()[len(ent.get()) - 1] == "+" or ent.get()[len(ent.get()) - 1] == "-" or
+                   ent.get()[len(ent.get()) - 1] == "*" or ent.get()[len(ent.get()) - 1] == "/" or
+                   ent.get()[len(ent.get()) - 1] == "%" or ent.get()[len(ent.get()) - 1] == "^"):
+               return
+           else:
+               for j in range(ent.get().find(ope),len(ent.get())):
+                   if(ent.get()[j] == "."):
+                       return
+               ent.insert(i, op)
+               i = i + 1
+   elif(op=="+" or op=="-" or op=="*" or op=="/" or op=="%" or op=="^"):
+       if(ent.get()=="" or ent.get()[len(ent.get())-1]=="+" or ent.get()[len(ent.get())-1]=="-" or
+          ent.get()[len(ent.get())-1]=="*" or ent.get()[len(ent.get())-1]=="/" or
+          ent.get()[len(ent.get())-1]=="%"or ent.get()[len(ent.get())-1]=="^" or ent.get()[len(ent.get())-1]=="."):
+           return
+       elif(ent.get().find("+")!=-1 or ent.get().find("-")!=-1 or
+            ent.get().find("*")!=-1 or ent.get().find("/")!=-1 or
+            ent.get().find("%")!=-1 or ent.get().find("^")!=-1):
+           if(ent.get().find("+")!=-1):
+               ope = "+"
+               a = ent.get().split("+")
+               ent.delete(0, END)
+               if(a[0].find(".")==-1 and a[1].find(".")==-1):
+                   ent.insert(i, int(a[0]) + int(a[1]))
+                   i = len(str(int(a[0]) + int(a[1]))) + 1
+                   ent.insert(i, op)
+                   i=i+1
+               elif(a[0].find(".")!=-1 and a[1].find(".")==-1):
+                   ent.insert(i, float(a[0]) + int(a[1]))
+                   i = len(str(float(a[0]) + int(a[1]))) + 1
+                   ent.insert(i, op)
+                   i = i+1
+               elif (a[0].find(".") == -1 and a[1].find(".") != -1):
+                   ent.insert(i, int(a[0]) + float(a[1]))
+                   i = len(str(int(a[0]) + float(a[1]))) + 1
+                   ent.insert(i, op)
+                   i = i+1
+               elif (a[0].find(".") != -1 and a[1].find(".") != -1):
+                   ent.insert(i, float(a[0]) + float(a[1]))
+                   i = len(str(float(a[0]) + float(a[1]))) + 1
+                   ent.insert(i, op)
+                   i=i+1
+           elif(ent.get().find("-") != -1):
+               ope = "-"
+               a = ent.get().split("-")
+               ent.delete(0, END)
+               if (a[0].find(".") == -1 and a[1].find(".") == -1):
+                   ent.insert(i, int(a[0]) - int(a[1]))
+                   i = len(str(int(a[0]) - int(a[1]))) + 1
+                   ent.insert(i, op)
+                   i = i + 1
+               elif (a[0].find(".") != -1 and a[1].find(".") == -1):
+                   ent.insert(i, float(a[0]) - int(a[1]))
+                   i = len(str(float(a[0]) - int(a[1]))) + 1
+                   ent.insert(i, op)
+                   i = i + 1
+               elif (a[0].find(".") == -1 and a[1].find(".") != -1):
+                   ent.insert(i, int(a[0]) - float(a[1]))
+                   i = len(str(int(a[0]) - float(a[1]))) + 1
+                   ent.insert(i, op)
+                   i = i + 1
+               elif (a[0].find(".") != -1 and a[1].find(".") != -1):
+                   ent.insert(i, float(a[0]) - float(a[1]))
+                   i = len(str(float(a[0]) - float(a[1]))) + 1
+                   ent.insert(i, op)
+                   i = i + 1
+           elif(ent.get().find("*") != -1):
+               ope = "*"
+               a = ent.get().split("*")
+               ent.delete(0, END)
+               if (a[0].find(".") == -1 and a[1].find(".") == -1):
+                   ent.insert(i, int(a[0]) * int(a[1]))
+                   i = len(str(int(a[0]) * int(a[1]))) + 1
+                   ent.insert(i, op)
+                   i = i + 1
+               elif (a[0].find(".") != -1 and a[1].find(".") == -1):
+                   ent.insert(i, float(a[0]) * int(a[1]))
+                   i = len(str(float(a[0]) * int(a[1]))) + 1
+                   ent.insert(i, op)
+                   i = i + 1
+               elif (a[0].find(".") == -1 and a[1].find(".") != -1):
+                   ent.insert(i, int(a[0]) * float(a[1]))
+                   i = len(str(int(a[0]) * float(a[1]))) + 1
+                   ent.insert(i, op)
+                   i = i + 1
+               elif (a[0].find(".") != -1 and a[1].find(".") != -1):
+                   ent.insert(i, float(a[0]) * float(a[1]))
+                   i = len(str(float(a[0]) * float(a[1]))) + 1
+                   ent.insert(i, op)
+                   i = i + 1
+           elif(ent.get().find("/") != -1):
+               ope = "/"
+               a = ent.get().split("/")
+               ent.delete(0, END)
+               if (a[0].find(".") == -1 and a[1].find(".") == -1):
+                   ent.insert(i, int(a[0]) / int(a[1]))
+                   i = len(str(int(a[0]) / int(a[1]))) + 1
+                   ent.insert(i, op)
+                   i = i + 1
+               elif (a[0].find(".") != -1 and a[1].find(".") == -1):
+                   ent.insert(i, float(a[0]) / int(a[1]))
+                   i = len(str(float(a[0]) / int(a[1]))) + 1
+                   ent.insert(i, op)
+                   i = i + 1
+               elif (a[0].find(".") == -1 and a[1].find(".") != -1):
+                   ent.insert(i, int(a[0]) / float(a[1]))
+                   i = len(str(int(a[0]) / float(a[1]))) + 1
+                   ent.insert(i, op)
+                   i = i + 1
+               elif (a[0].find(".") != -1 and a[1].find(".") != -1):
+                   ent.insert(i, float(a[0]) / float(a[1]))
+                   i = len(str(float(a[0]) / float(a[1]))) + 1
+                   ent.insert(i, op)
+                   i = i + 1
+           elif(ent.get().find("%") != -1):
+               ope = "%"
+               a = ent.get().split("%")
+               ent.delete(0, END)
+               if (a[0].find(".") == -1 and a[1].find(".") == -1):
+                   ent.insert(i, int(a[0]) % int(a[1]))
+                   i = len(str(int(a[0]) % int(a[1]))) + 1
+                   ent.insert(i, op)
+                   i = i + 1
+               elif (a[0].find(".") != -1 and a[1].find(".") == -1):
+                   ent.insert(i, float(a[0]) % int(a[1]))
+                   i = len(str(float(a[0]) % int(a[1]))) + 1
+                   ent.insert(i, op)
+                   i = i + 1
+               elif (a[0].find(".") == -1 and a[1].find(".") != -1):
+                   ent.insert(i, int(a[0]) % float(a[1]))
+                   i = len(str(int(a[0]) % float(a[1]))) + 1
+                   ent.insert(i, op)
+                   i = i + 1
+               elif (a[0].find(".") != -1 and a[1].find(".") != -1):
+                   ent.insert(i, float(a[0]) % float(a[1]))
+                   i = len(str(float(a[0]) % float(a[1]))) + 1
+                   ent.insert(i, op)
+                   i = i + 1
+           elif(ent.get().find("^") != -1):
+               ope = "^"
+               a = ent.get().split("^")
+               ent.delete(0, END)
+               if (a[0].find(".") == -1 and a[1].find(".") == -1):
+                   ent.insert(i, int(a[0]) ** int(a[1]))
+                   i = len(str(int(a[0]) ** int(a[1]))) + 1
+                   ent.insert(i, op)
+                   i = i + 1
+               elif (a[0].find(".") != -1 and a[1].find(".") == -1):
+                   ent.insert(i, float(a[0]) ** int(a[1]))
+                   i = len(str(float(a[0]) ** int(a[1]))) + 1
+                   ent.insert(i, op)
+                   i = i + 1
+               elif (a[0].find(".") == -1 and a[1].find(".") != -1):
+                   ent.insert(i, int(a[0]) ** float(a[1]))
+                   i = len(str(int(a[0]) ** float(a[1]))) + 1
+                   ent.insert(i, op)
+                   i = i + 1
+               elif (a[0].find(".") != -1 and a[1].find(".") != -1):
+                   ent.insert(i, float(a[0]) ** float(a[1]))
+                   i = len(str(float(a[0]) ** float(a[1]))) + 1
+                   ent.insert(i, op)
+                   i = i + 1
+       else:
+           ent.insert(i, op)
+           i=i+1
+           ope=op
+   if(op=="="):
+       if(ent.get().find("+")==-1 and ent.get().find("-")==-1 and
+          ent.get().find("*")==-1 and ent.get().find("/")==-1 and
+          ent.get().find("%")==-1 and ent.get().find("^")==-1):
+           return
+       elif(ent.get() == "" or ent.get()[len(ent.get()) - 1] == "+" or ent.get()[len(ent.get()) - 1] == "-" or
+               ent.get()[len(ent.get()) - 1] == "*" or ent.get()[len(ent.get()) - 1] == "/" or
+               ent.get()[len(ent.get()) - 1] == "%" or ent.get()[len(ent.get()) - 1] == "^"):
+           return
+       else:
+           if(ent.get().find("+")!=-1):
+               ope = "+"
+               a=ent.get().split("+")
+               ent.delete(0, END)
+               if (a[0].find(".") == -1 and a[1].find(".") == -1):
+                   ent.insert(i, int(a[0]) + int(a[1]))
+                   i=len(str(int(a[0]) + int(a[1]))) + 1
+               elif (a[0].find(".") != -1 and a[1].find(".") == -1):
+                   ent.insert(i, float(a[0]) + int(a[1]))
+                   i=len(str(float(a[0]) + int(a[1]))) + 1
+               elif (a[0].find(".") == -1 and a[1].find(".") != -1):
+                   ent.insert(i, int(a[0]) + float(a[1]))
+                   i=len(str(int(a[0]) + float(a[1]))) + 1
+               elif (a[0].find(".") != -1 and a[1].find(".") != -1):
+                   ent.insert(i, float(a[0]) + float(a[1]))
+                   i=len(str(float(a[0]) + float(a[1]))) + 1
+
+           elif(ent.get().find("-")!=-1):
+               ope = "-"
+               a=ent.get().split("-")
+               ent.delete(0, END)
+               if (a[0].find(".") == -1 and a[1].find(".") == -1):
+                   ent.insert(i, int(a[0]) - int(a[1]))
+                   i = len(str(int(a[0]) - int(a[1]))) + 1
+               elif (a[0].find(".") != -1 and a[1].find(".") == -1):
+                   ent.insert(i, float(a[0]) - int(a[1]))
+                   i = len(str(float(a[0]) - int(a[1]))) + 1
+               elif (a[0].find(".") == -1 and a[1].find(".") != -1):
+                   ent.insert(i, int(a[0]) - float(a[1]))
+                   i = len(str(int(a[0]) - float(a[1]))) + 1
+               elif (a[0].find(".") != -1 and a[1].find(".") != -1):
+                   ent.insert(i, float(a[0]) - float(a[1]))
+                   i = len(str(float(a[0]) - float(a[1]))) + 1
+           elif(ent.get().find("*")!=-1):
+               ope = "*"
+               a=ent.get().split("*")
+               ent.delete(0, END)
+               if (a[0].find(".") == -1 and a[1].find(".") == -1):
+                   ent.insert(i, int(a[0]) * int(a[1]))
+                   i = len(str(int(a[0]) * int(a[1]))) + 1
+               elif (a[0].find(".") != -1 and a[1].find(".") == -1):
+                   ent.insert(i, float(a[0]) * int(a[1]))
+                   i = len(str(float(a[0]) * int(a[1]))) + 1
+               elif (a[0].find(".") == -1 and a[1].find(".") != -1):
+                   ent.insert(i, int(a[0]) * float(a[1]))
+                   i = len(str(int(a[0]) * float(a[1]))) + 1
+               elif (a[0].find(".") != -1 and a[1].find(".") != -1):
+                   ent.insert(i, float(a[0]) * float(a[1]))
+                   i = len(str(float(a[0]) * float(a[1]))) + 1
+           elif(ent.get().find("/")!=-1):
+               ope = "/"
+               a=ent.get().split("/")
+               ent.delete(0, END)
+               if (a[0].find(".") == -1 and a[1].find(".") == -1):
+                   ent.insert(i, int(a[0]) / int(a[1]))
+                   i = len(str(int(a[0]) / int(a[1]))) + 1
+               elif (a[0].find(".") != -1 and a[1].find(".") == -1):
+                   ent.insert(i, float(a[0]) / int(a[1]))
+                   i = len(str(float(a[0]) / int(a[1]))) + 1
+               elif (a[0].find(".") == -1 and a[1].find(".") != -1):
+                   ent.insert(i, int(a[0]) / float(a[1]))
+                   i = len(str(int(a[0]) / float(a[1]))) + 1
+               elif (a[0].find(".") != -1 and a[1].find(".") != -1):
+                   ent.insert(i, float(a[0]) + float(a[1]))
+                   i = len(str(float(a[0])/float(a[1]))) + 1
+           elif(ent.get().find("%")!=-1):
+               ope = "%"
+               a=ent.get().split("%")
+               ent.delete(0, END)
+               if (a[0].find(".") == -1 and a[1].find(".") == -1):
+                   ent.insert(i, int(a[0])%int(a[1]))
+                   i = len(str(int(a[0]) % int(a[1]))) + 1
+               elif (a[0].find(".") != -1 and a[1].find(".") == -1):
+                   ent.insert(i, float(a[0]) % int(a[1]))
+                   i = len(str(float(a[0]) % int(a[1]))) + 1
+               elif (a[0].find(".") == -1 and a[1].find(".") != -1):
+                   ent.insert(i, int(a[0]) % float(a[1]))
+                   i = len(str(int(a[0]) % float(a[1]))) + 1
+               elif (a[0].find(".") != -1 and a[1].find(".") != -1):
+                   ent.insert(i, float(a[0]) % float(a[1]))
+                   i = len(str(float(a[0]) % float(a[1]))) + 1
+           elif(ent.get().find("^")!=-1):
+               ope = "^"
+               a=ent.get().split("^")
+               ent.delete(0, END)
+               if (a[0].find(".") == -1 and a[1].find(".") == -1):
+                   ent.insert(i, int(a[0]) ** int(a[1]))
+                   i = len(str(int(a[0]) ** int(a[1]))) + 1
+               elif (a[0].find(".") != -1 and a[1].find(".") == -1):
+                   ent.insert(i, float(a[0]) ** int(a[1]))
+                   i = len(str(float(a[0]) ** int(a[1]))) + 1
+               elif (a[0].find(".") == -1 and a[1].find(".") != -1):
+                   ent.insert(i, int(a[0]) ** float(a[1]))
+                   i = len(str(int(a[0]) ** float(a[1]))) + 1
+               elif (a[0].find(".") != -1 and a[1].find(".") != -1):
+                   ent.insert(i, float(a[0]) ** float(a[1]))
+                   i = len(str(float(a[0]) ** float(a[1]))) + 1
+   elif(op=="AC"):
+        ent.delete(0,END)
+   elif(op=="C"):
+       if(len(ent.get()) == 1):
+           ent.delete(0, END)
+           return
+       ent.delete(len(ent.get())-1, END)
+
 ent = Entry(width=26,font="large_font",borderwidth=5,relief=SUNKEN)
 ent.pack()
 f1 = Frame(bg="gold",padx=36,pady=71,borderwidth=5,relief=SUNKEN)
 f1.pack(anchor=N,side=TOP)
 cal.wm_iconbitmap("Dtafalonso-Android-Lollipop-Calculator.ico")
-po = -1
-ope = ""
-co = -1
 i=0
-j=-1
+ope=""
 but = Button(f1,text="C",padx=11,pady=11,command=partial(calcu,"C"))
 but.grid(row=2,column=0)
 but = Button(f1,text="AC",padx=11,pady=11,command=partial(calcu,"AC"))
@@ -153,7 +324,7 @@ but = Button(f1,text=8,padx=16,pady=11,command=partial(calcu,8))
 but.grid(row=3,column=1)
 but = Button(f1,text=9,padx=13,pady=11,command=partial(calcu,9))
 but.grid(row=3,column=2)
-but = Button(f1,text="x",padx=10,pady=11,command=partial(calcu,"x"))
+but = Button(f1,text="*",padx=10,pady=11,command=partial(calcu,"*"))
 but.grid(row=3,column=3)
 but = Button(f1,text=4,padx=12,pady=11,command=partial(calcu,4))
 but.grid(row=4,column=0)
